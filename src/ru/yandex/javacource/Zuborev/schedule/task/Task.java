@@ -1,3 +1,7 @@
+package ru.yandex.javacource.Zuborev.schedule.task;
+
+import java.util.Objects;
+
 public class Task {
     private String name;
     private String description;
@@ -10,6 +14,7 @@ public class Task {
         this.name = name;
         this.description = description;
     }
+
     public int getId() {
         return id;
     }
@@ -41,9 +46,23 @@ public class Task {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Task task = (Task) object;
+        return id == task.id && Objects.equals(name, task.name) && Objects.equals(description, task.description) && taskStatus == task.taskStatus;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, taskStatus, id);
+    }
+
     @Override
     public String toString() {
-        return "Task{" +
+        return "ru.yandex.javacource.Zuborev.ru.yandex.javacource.Zuborev.schedule.task.Task{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", taskStatus=" + taskStatus +

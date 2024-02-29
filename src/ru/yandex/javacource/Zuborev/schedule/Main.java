@@ -1,3 +1,10 @@
+package ru.yandex.javacource.Zuborev.schedule;
+
+import ru.yandex.javacource.Zuborev.schedule.manager.TaskManager;
+import ru.yandex.javacource.Zuborev.schedule.task.Epic;
+import ru.yandex.javacource.Zuborev.schedule.task.Subtask;
+import ru.yandex.javacource.Zuborev.schedule.task.Task;
+import ru.yandex.javacource.Zuborev.schedule.task.TaskStatus;
 public class Main {
     public static void main(String[] args) {
         TaskManager taskManager = new TaskManager();
@@ -13,29 +20,29 @@ public class Main {
         Subtask subtask = new Subtask("subtask1", "d", 1, TaskStatus.DONE);
         Subtask subtask1 = new Subtask("subtask2", "d", 1, TaskStatus.NEW);
 
-        Subtask subtask2 = new Subtask("subtask3", "d", 2, TaskStatus.NEW);
+        Subtask subtask2 = new Subtask("subtask3", "d", 1, TaskStatus.NEW);
 
         taskManager.addNewEpic(epic);
         taskManager.addNewEpic(epic2);
 
 
-        taskManager.addNewSubTask(subtask);
-        taskManager.addNewSubTask(subtask1);
-        taskManager.addNewSubTask(subtask2);
+        taskManager.addNewSubtask(subtask);
+        taskManager.addNewSubtask(subtask1);
+        taskManager.addNewSubtask(subtask2);
 
         taskManager.addNewTask(task1);
         taskManager.addNewTask(task2);
 
 
         System.out.println(epic);
-        for (Integer epi: epic.getEpicSubtasks()){
-            System.out.println(taskManager.getSubtasks().get(epi));
-        }
+        System.out.println(epic.getTaskStatus());
+
+        System.out.println(taskManager.getEpics());
+
 
 //        taskManager.deleteAllEpics();
 //        taskManager.deleteAllTasks();
 
-        System.out.println(epic);
 
     }
 }

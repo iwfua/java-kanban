@@ -1,6 +1,8 @@
+package ru.yandex.javacource.Zuborev.schedule.task;
+
 public class Subtask extends Task {
 
-    private int epicId = 0;
+    private int epicId;
 
 
     public Subtask(String name, String description, int epicId, TaskStatus taskStatus){
@@ -16,9 +18,9 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return "Subtask{name='" + getName() + "', " +
+        return "ru.yandex.javacource.Zuborev.ru.yandex.javacource.Zuborev.schedule.task.Subtask{name='" + getName() + "', " +
                 "epicId=" + epicId +
-                "TaskStatus=" + getTaskStatus() +
+                "ru.yandex.javacource.Zuborev.ru.yandex.javacource.Zuborev.schedule.task.TaskStatus=" + getTaskStatus() +
                 '}';
     }
 }
