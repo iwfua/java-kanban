@@ -1,8 +1,8 @@
-package ru.yandex.javacource.Zuborev.schedule.manager;
+package ru.yandex.javacource.zuborev.schedule.manager;
 
-import ru.yandex.javacource.Zuborev.schedule.task.Epic;
-import ru.yandex.javacource.Zuborev.schedule.task.Subtask;
-import ru.yandex.javacource.Zuborev.schedule.task.Task;
+import ru.yandex.javacource.zuborev.schedule.task.Task;
+import ru.yandex.javacource.zuborev.schedule.task.Epic;
+import ru.yandex.javacource.zuborev.schedule.task.Subtask;
 
 import java.util.ArrayList;
 import java.util.List;

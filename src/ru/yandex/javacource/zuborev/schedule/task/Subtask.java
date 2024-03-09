@@ -1,4 +1,4 @@
-package ru.yandex.javacource.Zuborev.schedule.task;
+package ru.yandex.javacource.zuborev.schedule.task;
 
 public class Subtask extends Task {
 

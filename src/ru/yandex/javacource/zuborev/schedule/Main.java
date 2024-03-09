@@ -1,11 +1,11 @@
-package ru.yandex.javacource.Zuborev.schedule;
+package ru.yandex.javacource.zuborev.schedule;
 
-import ru.yandex.javacource.Zuborev.schedule.manager.Managers;
-import ru.yandex.javacource.Zuborev.schedule.manager.TaskManager;
-import ru.yandex.javacource.Zuborev.schedule.task.Epic;
-import ru.yandex.javacource.Zuborev.schedule.task.Subtask;
-import ru.yandex.javacource.Zuborev.schedule.task.Task;
-import ru.yandex.javacource.Zuborev.schedule.task.TaskStatus;
+import ru.yandex.javacource.zuborev.schedule.manager.Managers;
+import ru.yandex.javacource.zuborev.schedule.manager.TaskManager;
+import ru.yandex.javacource.zuborev.schedule.task.Epic;
+import ru.yandex.javacource.zuborev.schedule.task.Subtask;
+import ru.yandex.javacource.zuborev.schedule.task.Task;
+import ru.yandex.javacource.zuborev.schedule.task.TaskStatus;
 
 public class Main {
     public static void main(String[] args) {
@@ -47,16 +47,6 @@ public class Main {
 
         System.out.println("History");
         System.out.println(taskManager.getHistory());
-
-
-//        System.out.println(epic);
-//        System.out.println(epic.getTaskStatus());
-//
-//        System.out.println(taskManager.getEpics());
-
-
-//        taskManager.deleteAllEpics();
-//        taskManager.deleteAllTasks();
 
 
     }

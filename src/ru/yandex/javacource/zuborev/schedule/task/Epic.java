@@ -1,11 +1,12 @@
-package ru.yandex.javacource.Zuborev.schedule.task;
+package ru.yandex.javacource.zuborev.schedule.task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Epic extends Task {
 
-    private ArrayList<Integer> epicSubtaskIds;
+    private List<Integer> epicSubtaskIds;
 
     public Epic(String name, String description) {
         super(name, description, TaskStatus.NEW);
@@ -24,13 +25,17 @@ public class Epic extends Task {
         epicSubtaskIds.clear();
     }
 
-    public ArrayList<Integer> getSubtaskIds() {
+    public List<Integer> getSubtaskIds() {
         return new ArrayList<>(epicSubtaskIds);
+    }
+
+    public void setSubtaskIds(List<Integer> epicSubtaskIds) {
+        this.epicSubtaskIds = epicSubtaskIds;
     }
 
     @Override
     public String toString() {
-        return "ru.yandex.javacource.Zuborev.ru.yandex.javacource.Zuborev.schedule.task.Epic{" +
+        return "ru.yandex.javacource.Zuborev.schedule.task.Epic{" +
                 "epicSubtaskIds=" + epicSubtaskIds +
                 '}';
     }

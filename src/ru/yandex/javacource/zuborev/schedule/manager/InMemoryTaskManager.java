@@ -1,21 +1,21 @@
-package ru.yandex.javacource.Zuborev.schedule.manager;
+package ru.yandex.javacource.zuborev.schedule.manager;
 
-import ru.yandex.javacource.Zuborev.schedule.task.Epic;
-import ru.yandex.javacource.Zuborev.schedule.task.Subtask;
-import ru.yandex.javacource.Zuborev.schedule.task.Task;
-import ru.yandex.javacource.Zuborev.schedule.task.TaskStatus;
+import ru.yandex.javacource.zuborev.schedule.task.Epic;
+import ru.yandex.javacource.zuborev.schedule.task.Subtask;
+import ru.yandex.javacource.zuborev.schedule.task.Task;
+import ru.yandex.javacource.zuborev.schedule.task.TaskStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
-    private int id = 0;
+    private int id;
 
     private HashMap<Integer, Task> tasks = new HashMap<>();
     private HashMap<Integer, Epic> epics = new HashMap<>();
-    private HashMap<Integer, Subtask> subtasks = new HashMap<>();
-    private HistoryManager historyManager;
+    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private final HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
@@ -210,10 +210,14 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpic(Epic updateEpic) {
-        if (epics.containsKey(updateEpic.getId())) {
-            epics.get(updateEpic.getId()).setName(updateEpic.getName());
-            epics.get(updateEpic.getId()).setDescription(updateEpic.getDescription());
+        Epic savedEpic = epics.get(updateEpic.getId());
+        if (savedEpic == null) {
+            return;
         }
+        updateEpic.setSubtaskIds(savedEpic.getSubtaskIds());
+        updateEpic.setStatus(savedEpic.getTaskStatus());
+        epics.get(updateEpic.getId()).setName(updateEpic.getName());
+        epics.get(updateEpic.getId()).setDescription(updateEpic.getDescription());
     }
 
     //получение истории
@@ -225,7 +229,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         if (epic.getSubtaskIds().isEmpty()) {
             for (Integer subtask: epic.getSubtaskIds()) {
-                subtasks.get(subtask).setTaskStatus(TaskStatus.NEW);
+                subtasks.get(subtask).setStatus(TaskStatus.NEW);
             }
             return;
         }
@@ -250,12 +254,12 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         if ((done > 0 && New > 0) || inProgress > 0) {
-            epic.setTaskStatus(TaskStatus.IN_PROGRESS);
+            epic.setStatus(TaskStatus.IN_PROGRESS);
             return;
         } else if (New > 0 && done < 0) {
-            epic.setTaskStatus(TaskStatus.NEW);
+            epic.setStatus(TaskStatus.NEW);
         } else {
-            epic.setTaskStatus(TaskStatus.DONE);
+            epic.setStatus(TaskStatus.DONE);
         }
     }
 

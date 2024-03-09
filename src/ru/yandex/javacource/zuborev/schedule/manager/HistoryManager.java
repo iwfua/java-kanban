@@ -1,6 +1,6 @@
-package ru.yandex.javacource.Zuborev.schedule.manager;
+package ru.yandex.javacource.zuborev.schedule.manager;
 
-import ru.yandex.javacource.Zuborev.schedule.task.Task;
+import ru.yandex.javacource.zuborev.schedule.task.Task;
 
 import java.util.List;
 

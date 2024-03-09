@@ -1,4 +1,4 @@
-package ru.yandex.javacource.Zuborev.schedule.task;
+package ru.yandex.javacource.zuborev.schedule.task;
 
 import java.util.Objects;
 
@@ -8,6 +8,12 @@ public class Task {
     private TaskStatus taskStatus;
     private int id;
 
+    public Task(String name, String description, TaskStatus taskStatus, int id) {
+        this.name = name;
+        this.description = description;
+        this.taskStatus = taskStatus;
+        this.id = id;
+    }
 
     public Task(String name, String description, TaskStatus taskStatus) {
         this.taskStatus = taskStatus;
@@ -39,7 +45,7 @@ public class Task {
         return taskStatus;
     }
 
-    public void setTaskStatus(TaskStatus taskStatus) {
+    public void setStatus(TaskStatus taskStatus) {
         this.taskStatus = taskStatus;
     }
 
@@ -62,7 +68,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "ru.yandex.javacource.Zuborev.ru.yandex.javacource.Zuborev.schedule.task.Task{" +
+        return "ru.yandex.javacource.Zuborev.schedule.task.Task{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", taskStatus=" + taskStatus +

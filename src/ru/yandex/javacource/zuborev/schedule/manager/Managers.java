@@ -1,4 +1,4 @@
-package ru.yandex.javacource.Zuborev.schedule.manager;
+package ru.yandex.javacource.zuborev.schedule.manager;
 
 public class Managers {
     public static TaskManager getDefaultTaskManager() {
