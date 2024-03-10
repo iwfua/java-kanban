@@ -1,9 +1,7 @@
+package ru.yandex.javacource.zuborev.schedule.manager;
+
 import org.junit.jupiter.api.*;
-import ru.yandex.javacource.zuborev.schedule.manager.HistoryManager;
-import ru.yandex.javacource.zuborev.schedule.manager.Managers;
-import ru.yandex.javacource.zuborev.schedule.manager.TaskManager;
 import ru.yandex.javacource.zuborev.schedule.task.Epic;
-import ru.yandex.javacource.zuborev.schedule.task.Subtask;
 import ru.yandex.javacource.zuborev.schedule.task.Task;
 import ru.yandex.javacource.zuborev.schedule.task.TaskStatus;
 
@@ -15,6 +13,7 @@ public class InMemoryTaskManagerTests {
     private static Task task1;
     private static Task task2;
     private static Epic epic1;
+    private static Epic epic2;
 
 
     @BeforeEach
