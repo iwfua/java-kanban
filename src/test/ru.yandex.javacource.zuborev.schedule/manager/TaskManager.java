@@ -1,4 +1,4 @@
-package ru.yandex.javacource.zuborev.schedule.manager;
+package test.ru.yandex.javacource.zuborev.schedule.manager;
 
 import ru.yandex.javacource.zuborev.schedule.task.Task;
 import ru.yandex.javacource.zuborev.schedule.task.Epic;
