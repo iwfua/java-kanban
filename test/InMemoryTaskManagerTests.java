@@ -1,5 +1,3 @@
-package test;
-
 import org.junit.jupiter.api.*;
 import ru.yandex.javacource.zuborev.schedule.manager.HistoryManager;
 import ru.yandex.javacource.zuborev.schedule.manager.Managers;
