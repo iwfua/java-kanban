@@ -3,10 +3,16 @@ package ru.yandex.javacource.zuborev.schedule;
 import org.junit.jupiter.api.*;
 
 import ru.yandex.javacource.zuborev.schedule.manager.HistoryManager;
+import ru.yandex.javacource.zuborev.schedule.manager.InMemoryHistoryManager;
 import ru.yandex.javacource.zuborev.schedule.manager.Managers;
 import ru.yandex.javacource.zuborev.schedule.manager.TaskManager;
 import ru.yandex.javacource.zuborev.schedule.task.Task;
 import ru.yandex.javacource.zuborev.schedule.task.TaskStatus;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InMemoryHistoryManagerTests {
 
@@ -18,7 +24,6 @@ public class InMemoryHistoryManagerTests {
     public void BeforeEach() {
         historyManager = Managers.getDeaultHistoryManager();
         taskManager = Managers.getDefaultTaskManager();
-        task1 = new Task("сходить в магазин", " ", TaskStatus.NEW);
     }
 
     @Test
@@ -34,7 +39,43 @@ public class InMemoryHistoryManagerTests {
         for(int i = 0; i < 11; i++) {
             taskManager.getTaskById(task1.getId());
         }
-        Assertions.assertEquals(10, taskManager.getHistory().size());
+        assertEquals(11, taskManager.getHistory().size());
+    }
+    //Проверка добавления элемента в историю
+    @Test
+    public void testAddHistory() {
+        InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
+
+        Task task1 = new Task("Task 1", "1", TaskStatus.DONE, 1);
+        Task task2 = new Task("Task 2", "2", TaskStatus.DONE, 2);
+        Task task3 = new Task("Task 3", "3", TaskStatus.DONE, 3);
+
+        // Добавляем задачи
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+
+        List<Task> expectedHistory = Arrays.asList(task3, task2, task1);
+        assertEquals(expectedHistory, historyManager.getHistory());
     }
 
+    //Проверка удаления элемента из истории
+    @Test
+    public void testRemoveElementFromHistory(){
+        InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
+
+        List<Task> expectedHistory;
+        Task task1 = new Task("Task 1", "1", TaskStatus.DONE, 1);
+        Task task2 = new Task("Task 2", "2", TaskStatus.DONE, 2);
+        Task task3 = new Task("Task 3", "3", TaskStatus.DONE, 3);
+
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+
+        // Удаляем задачу №2 и проверяем порядок
+        historyManager.remove(2);
+        expectedHistory = Arrays.asList(task3, task1);
+        assertEquals(expectedHistory, historyManager.getHistory());
+    }
 }
