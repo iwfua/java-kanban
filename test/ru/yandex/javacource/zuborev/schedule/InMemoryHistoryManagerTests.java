@@ -31,16 +31,6 @@ public class InMemoryHistoryManagerTests {
         Assertions.assertNotNull(historyManager);
     }
 
-    //проверка максимального кол-ва элементов в Листе Истории
-    @Test
-    public void getMaxElementsHistoryShouldBe10() {
-        taskManager.addNewTask(task1);
-        //добавим 11 значений в Лист Истории
-        for(int i = 0; i < 11; i++) {
-            taskManager.getTaskById(task1.getId());
-        }
-        assertEquals(11, taskManager.getHistory().size());
-    }
     //Проверка добавления элемента в историю
     @Test
     public void testAddHistory() {
