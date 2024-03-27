@@ -5,7 +5,7 @@ import ru.yandex.javacource.zuborev.schedule.task.Task;
 import java.util.*;
 
 
-public class InMemoryHistoryManager implements HistoryManager{
+public class InMemoryHistoryManager implements HistoryManager {
     TaskNode head;
     TaskNode tail;
     HashMap<Integer, TaskNode> map;
@@ -76,6 +76,7 @@ public class InMemoryHistoryManager implements HistoryManager{
         }
         return historyList;
     }
+
     @Override
     public String toString() {
         return "TaskHistory{" +
