@@ -5,7 +5,7 @@ public class Subtask extends Task {
     private int epicId;
 
 
-    public Subtask(String name, String description, int epicId, TaskStatus taskStatus){
+    public Subtask(String name, String description, int epicId, TaskStatus taskStatus) {
         super(name, description, taskStatus);
         this.epicId = epicId;
     }
@@ -18,9 +18,9 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return "ru.yandex.javacource.Zuborev.ru.yandex.javacource.Zuborev.schedule.task.Subtask{name='" + getName() + "', " +
+        return "Subtask{name='" + getName() + "', " +
                 "epicId=" + epicId +
-                "ru.yandex.javacource.Zuborev.ru.yandex.javacource.Zuborev.schedule.task.TaskStatus=" + getTaskStatus() +
+                "TaskStatus=" + getTaskStatus() +
                 '}';
     }
 }

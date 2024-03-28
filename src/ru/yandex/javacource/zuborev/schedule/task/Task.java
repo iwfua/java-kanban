@@ -68,7 +68,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "ru.yandex.javacource.Zuborev.schedule.task.Task{" +
+        return "Task{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", taskStatus=" + taskStatus +
