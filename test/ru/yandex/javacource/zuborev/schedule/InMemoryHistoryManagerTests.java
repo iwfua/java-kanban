@@ -45,13 +45,13 @@ public class InMemoryHistoryManagerTests {
         historyManager.add(task2);
         historyManager.add(task3);
 
-        List<Task> expectedHistory = Arrays.asList(task3, task2, task1);
+        List<Task> expectedHistory = Arrays.asList(task1, task2, task3);
         assertEquals(expectedHistory, historyManager.getHistory());
     }
 
     //Проверка удаления элемента из истории
     @Test
-    public void testRemoveElementFromHistory(){
+    public void testRemoveElementFromHistory() {
         InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
 
         List<Task> expectedHistory;
@@ -65,7 +65,7 @@ public class InMemoryHistoryManagerTests {
 
         // Удаляем задачу №2 и проверяем порядок
         historyManager.remove(2);
-        expectedHistory = Arrays.asList(task3, task1);
+        expectedHistory = Arrays.asList(task1, task3);
         assertEquals(expectedHistory, historyManager.getHistory());
     }
 }

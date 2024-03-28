@@ -1,9 +1,6 @@
 package ru.yandex.javacource.zuborev.schedule.manager;
 
-import ru.yandex.javacource.zuborev.schedule.task.Epic;
-import ru.yandex.javacource.zuborev.schedule.task.Subtask;
-import ru.yandex.javacource.zuborev.schedule.task.Task;
-import ru.yandex.javacource.zuborev.schedule.task.TaskStatus;
+import ru.yandex.javacource.zuborev.schedule.task.*;
 
 import java.util.*;
 
@@ -156,7 +153,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     // удаление по идентификатору
-
     @Override
     public void deleteTaskId(int id) {
         if (tasks.containsKey(id)) {
@@ -182,7 +178,6 @@ public class InMemoryTaskManager implements TaskManager {
         epic.deleteSubtask(id);
         updateStatus(epic);
     }
-
 
     // обновление задачи
     @Override
