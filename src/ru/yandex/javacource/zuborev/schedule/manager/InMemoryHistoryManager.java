@@ -6,6 +6,25 @@ import java.util.*;
 
 
 public class InMemoryHistoryManager implements HistoryManager {
+    class TaskNode {
+        Task task;
+        ru.yandex.javacource.zuborev.schedule.manager.TaskNode prev;
+        ru.yandex.javacource.zuborev.schedule.manager.TaskNode next;
+
+        public TaskNode(Task task) {
+            this.task = task;
+            this.prev = null;
+            this.next = null;
+        }
+
+        @Override
+        public String toString() {
+            return "TaskNode{" +
+                    "task=" + task +
+                    '}';
+        }
+    }
+
     TaskNode head;
     TaskNode tail;
     HashMap<Integer, TaskNode> map;
@@ -75,12 +94,5 @@ public class InMemoryHistoryManager implements HistoryManager {
             current = current.next;
         }
         return historyList;
-    }
-
-    @Override
-    public String toString() {
-        return "TaskHistory{" +
-                ", map=" + map +
-                '}';
     }
 }
