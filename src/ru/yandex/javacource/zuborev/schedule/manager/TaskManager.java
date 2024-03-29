@@ -4,7 +4,6 @@ import ru.yandex.javacource.zuborev.schedule.task.Task;
 import ru.yandex.javacource.zuborev.schedule.task.Epic;
 import ru.yandex.javacource.zuborev.schedule.task.Subtask;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager {

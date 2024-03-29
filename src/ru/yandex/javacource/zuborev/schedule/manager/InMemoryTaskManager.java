@@ -1,14 +1,8 @@
 package ru.yandex.javacource.zuborev.schedule.manager;
 
-import ru.yandex.javacource.zuborev.schedule.task.Epic;
-import ru.yandex.javacource.zuborev.schedule.task.Subtask;
-import ru.yandex.javacource.zuborev.schedule.task.Task;
-import ru.yandex.javacource.zuborev.schedule.task.TaskStatus;
+import ru.yandex.javacource.zuborev.schedule.task.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     private int id;
@@ -26,10 +20,12 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Task> getAllTask() {
         return new ArrayList<>(tasks.values());
     }
+
     @Override
     public List<Epic> getEpic() {
         return new ArrayList<>(epics.values());
     }
+
     @Override
     public List<Subtask> getSubtask() {
         return new ArrayList<>(subtasks.values());
@@ -157,7 +153,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     // удаление по идентификатору
-
     @Override
     public void deleteTaskId(int id) {
         if (tasks.containsKey(id)) {
@@ -183,7 +178,6 @@ public class InMemoryTaskManager implements TaskManager {
         epic.deleteSubtask(id);
         updateStatus(epic);
     }
-
 
     // обновление задачи
     @Override
@@ -236,14 +230,14 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         int done = 0;
-        int New = 0;
+        int newW = 0;
         int inProgress = 0;
 
 
         for (Integer id : epic.getSubtaskIds()) {
             switch (subtasks.get(id).getTaskStatus()) {
                 case NEW:
-                    New += 1;
+                    newW += 1;
                     break;
                 case DONE:
                     done += 1;
@@ -254,10 +248,10 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
 
-        if ((done > 0 && New > 0) || inProgress > 0) {
+        if ((done > 0 && newW > 0) || inProgress > 0) {
             epic.setStatus(TaskStatus.IN_PROGRESS);
             return;
-        } else if (New > 0 && done < 0) {
+        } else if (newW > 0 && done < 0) {
             epic.setStatus(TaskStatus.NEW);
         } else {
             epic.setStatus(TaskStatus.DONE);

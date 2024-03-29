@@ -30,8 +30,8 @@ public class InMemoryTaskManagerTests {
     //убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.
     @Test
     public void getCheckChangesAfterUpdatedInfoInTask() {
-        Task currentTask = new Task("сделать дз", "kemf", TaskStatus.NEW);
-        Task updatedTask = new Task("Обновленный таск", "kemf", TaskStatus.NEW);
+        Task currentTask = new Task("сделать дз", "description", TaskStatus.NEW);
+        Task updatedTask = new Task("Обновленный таск", "description", TaskStatus.NEW);
 
         Task expected = currentTask;
 
