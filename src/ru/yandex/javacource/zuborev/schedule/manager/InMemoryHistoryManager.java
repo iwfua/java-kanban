@@ -29,7 +29,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private void linkLast(Task task) {
-        final TaskNode node = new TaskNode(task, last, null); // соответсвенно нужно создать констуктор, где last принимается в поле prev
+        final TaskNode node = new TaskNode(task, last, null);
         if (first == null) {
             first = node;
         } else {
