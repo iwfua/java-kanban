@@ -2,20 +2,14 @@ package ru.yandex.javacource.zuborev.schedule.manager;
 
 import ru.yandex.javacource.zuborev.schedule.task.*;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
-
-    public void setPathFile(Path pathFile) {
-        this.pathFile = pathFile;
-    }
-
-    private Path pathFile = Path.of("/Users/nikolay/IdeaProjects/java-kanban/src/ru/yandex/javacource/zuborev/schedule/resourses/saved.csv");
+    private final Path pathFile = Path.of("src/ru/yandex/javacource/zuborev/schedule/resourses/saved.csv");
 
     public FileBackedTaskManager(HistoryManager historyManager) {
         super(historyManager);
@@ -82,6 +76,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         }
     }
 
+    //задачу -> строку
     private String toStringTask(Task task) {
         return task.getId() + "," + TypeTask.TASK + "," + task.getName() + ","
                 + task.getTaskStatus() + "," + task.getDescription() + ",";
@@ -97,25 +92,33 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 + subtask.getTaskStatus() + "," + subtask.getDescription() + "," + subtask.getEpicId();
     }
 
-    public Task fromStringTask(String value) {
-        String[] aboutTask = value.split(",");
-        int id = Integer.parseInt(aboutTask[0]);
-        String name = aboutTask[2];
-        TaskStatus taskStatus = TaskStatus.valueOf(aboutTask[3]);
-        String description = aboutTask[4];
-        return new Task(name, description, taskStatus, id);
+    //созданиe задачи из строки
+    public List<Task> taskFromString(String value) {
+        List<Task> tasksFromString = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(value))) {
+            List<String> lines = Files.readAllLines(Path.of(value));
+            lines.remove(0);
+            for (String line : lines) {
+                String[] aboutTask = line.split(",");
+                int id = Integer.parseInt(aboutTask[0]);
+                String name = aboutTask[2];
+                String description = aboutTask[4];
+                TaskStatus taskStatus = TaskStatus.valueOf(aboutTask[3]);
+                if (tasks.containsKey(id)) {
+                    Task task = new Task(name, description, taskStatus, id);
+                    tasksFromString.add(task);
+                } else if (epics.containsKey(id)) {
+                    Epic epic = new Epic(name, description);
+                    tasksFromString.add(epic);
+                } else if (subtasks.containsKey(id)){
+                    int epicId = Integer.parseInt(aboutTask[aboutTask.length - 1]);
+                    Subtask subtask = new Subtask(name, description,epicId,taskStatus);
+                    tasksFromString.add(subtask);
+                }
+            }
+        } catch (IOException exp) {
+            throw new ManagerSaveException("Ошибка: " + exp.getMessage());
+        }
+        return tasksFromString;
     }
-
-//    public Epic fromStringEpic(String value) {
-//        String[] aboutTask = value.split(",");
-//
-//        return new Epic(name, description, taskStatus, id);
-//    }
-//
-//    public Subtask fromStringSubtask(String value) {
-//        String[] aboutTask = value.split(",");
-//        int
-//        int epicId = Integer.parseInt(aboutTask[aboutTask.length - 1]);
-//        return new Subtask(name, description,epicId,taskStatus);
-//    }
 }
