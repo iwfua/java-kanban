@@ -38,7 +38,8 @@ public class Epic extends Task {
         return "Epic{" +
                 "name='" +  getName() + '\'' +
                 ", description='" + getDescription() + '\'' +
-                "epicSubtaskIds=" + epicSubtaskIds +
+                ", epicSubtaskIds=" + epicSubtaskIds +
+                ", id=" + getId() +
                 '}';
     }
 }

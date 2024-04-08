@@ -13,7 +13,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     public FileBackedTaskManager(HistoryManager historyManager) {
         super(historyManager);
-//        this.pathFile = pathFile;
     }
 
     @Override
@@ -59,14 +58,48 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         return historyIds;
     }
 
-    public Path getPathFile() {
-        return pathFile;
+    //метод, который будет восстанавливать данные менеджера из файла при запуске программы
+    public static FileBackedTaskManager loadFromFile(File file) {
+//        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(Managers.getDeaultHistoryManager());
+//        String path = file.getPath();
+//        fileBackedTaskManager.taskFromString(path);
+//        return fileBackedTaskManager;
+        FileBackedTaskManager manager = new FileBackedTaskManager(Managers.getDeaultHistoryManager());
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            bufferedReader.readLine();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length > 1) {
+                    int id = Integer.parseInt(parts[0]);
+                    TypeTask type = TypeTask.valueOf(parts[1]);
+                    String name = parts[2];
+                    TaskStatus status = TaskStatus.valueOf(parts[3]);
+                    String description = parts[4];
+                    if (type == TypeTask.TASK) {
+                        Task task = new Task(name, description, status, id);
+                        manager.addNewTask(task);
+                    } else if (type == TypeTask.EPIC) {
+                        Epic epic = new Epic(name, description);
+                        manager.addNewEpic(epic);
+                    } else if (type == TypeTask.SUBTASK) {
+                        int epicId = Integer.parseInt(parts[5]);
+                        Subtask subtask = new Subtask(name, description, epicId, status);
+                        manager.addNewSubtask(subtask);
+                    }
+                }
+            }
+        } catch (IOException exp) {
+            throw new ManagerSaveException("Ошибка: " + exp.getMessage());
+        }
+        return manager;
     }
 
+    //сохранение в файл
     private void save() {
         try (BufferedWriter bufferedWriter = Files.newBufferedWriter(pathFile)) {
             bufferedWriter.write("id,type,name,status,description,epic\n");
-            // Сохраняем задачи
             List<Task> allTasks = super.getAllTask();
             List<Epic> allEpics = super.getEpic();
             List<Subtask> allSubtasks = super.getSubtask();

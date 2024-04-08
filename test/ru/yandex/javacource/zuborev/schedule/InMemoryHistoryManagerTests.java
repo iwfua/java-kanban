@@ -2,10 +2,7 @@ package ru.yandex.javacource.zuborev.schedule;
 
 import org.junit.jupiter.api.*;
 
-import ru.yandex.javacource.zuborev.schedule.manager.HistoryManager;
-import ru.yandex.javacource.zuborev.schedule.manager.InMemoryHistoryManager;
-import ru.yandex.javacource.zuborev.schedule.manager.Managers;
-import ru.yandex.javacource.zuborev.schedule.manager.TaskManager;
+import ru.yandex.javacource.zuborev.schedule.manager.*;
 import ru.yandex.javacource.zuborev.schedule.task.Task;
 import ru.yandex.javacource.zuborev.schedule.task.TaskStatus;
 

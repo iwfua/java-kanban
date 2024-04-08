@@ -15,7 +15,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         history = new HashMap<>();
     }
 
-
     //Добавление в историю
     @Override
     public void add(Task task) {
