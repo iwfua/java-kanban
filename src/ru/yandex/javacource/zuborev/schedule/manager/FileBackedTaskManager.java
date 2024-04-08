@@ -37,12 +37,26 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         return epic.getId();
     }
 
-    static void FileBackedTaskManager() {
-
+    public static String historyToString(HistoryManager manager) {
+        StringBuilder stringBuilder = new StringBuilder();
+        List<Task> historys = manager.getHistory();
+        int historySize = historys.size();
+        for (int i = 0; i < historySize; i++) {
+            stringBuilder.append(historys.get(i).getId());
+            if (i < historySize - 1) {
+                stringBuilder.append(", ");
+            }
+        }
+        return stringBuilder.toString();
     }
 
-    static void loadFromFile(File file) {
-
+    public static List<Integer> historyFromString(String value) {
+        String[] historys = value.split(", ");
+        List<Integer> historyIds = new ArrayList<>();
+        for (String history : historys) {
+            historyIds.add(Integer.valueOf(history));
+        }
+        return historyIds;
     }
 
     public Path getPathFile() {
@@ -110,9 +124,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 } else if (epics.containsKey(id)) {
                     Epic epic = new Epic(name, description);
                     tasksFromString.add(epic);
-                } else if (subtasks.containsKey(id)){
+                } else if (subtasks.containsKey(id)) {
                     int epicId = Integer.parseInt(aboutTask[aboutTask.length - 1]);
-                    Subtask subtask = new Subtask(name, description,epicId,taskStatus);
+                    Subtask subtask = new Subtask(name, description, epicId, taskStatus);
                     tasksFromString.add(subtask);
                 }
             }
