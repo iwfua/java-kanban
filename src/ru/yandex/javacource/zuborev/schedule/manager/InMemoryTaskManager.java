@@ -7,9 +7,9 @@ import java.util.*;
 public class InMemoryTaskManager implements TaskManager {
     private int id;
 
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
-    private final Map<Integer, Subtask> subtasks = new HashMap<>();
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
+    protected final Map<Integer, Subtask> subtasks = new HashMap<>();
     private final HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
@@ -46,16 +46,29 @@ public class InMemoryTaskManager implements TaskManager {
         return newEpic.getId();
     }
 
+    //    @Override
+//    public Integer addNewSubtask(Subtask subtask) {
+//        int epicId = subtask.getEpicId();
+//        Epic epic = epics.get(epicId);
+//        if (epic == null) {
+//            return null;
+//        }
+//        subtask.setId(idGenerator());
+//        subtasks.put(id, subtask);
+//        epic.addNewSubtask(subtask.getId());
+//        updateStatus(epic);
+//        return id;
+//    }
     @Override
-    public Integer addNewSubtask(Subtask subtask) {
+    public int addNewSubtask(Subtask subtask) {
         int epicId = subtask.getEpicId();
         Epic epic = epics.get(epicId);
         if (epic == null) {
-            return null;
+            return 0;
         }
         int id = idGenerator();
         subtask.setId(id);
-        subtasks.put(id, subtask);
+        subtasks.put(id, subtask); // Добавляем подзадачу в карту subtasks
         epic.addNewSubtask(subtask.getId());
         updateStatus(epic);
         return id;
@@ -223,7 +236,7 @@ public class InMemoryTaskManager implements TaskManager {
     private void updateStatus(Epic epic) {
 
         if (epic.getSubtaskIds().isEmpty()) {
-            for (Integer subtask: epic.getSubtaskIds()) {
+            for (Integer subtask : epic.getSubtaskIds()) {
                 subtasks.get(subtask).setStatus(TaskStatus.NEW);
             }
             return;
