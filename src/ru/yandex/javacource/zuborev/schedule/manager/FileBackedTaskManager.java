@@ -124,7 +124,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     //задачу -> строку
-    private String toStringTask(Task task) {
+    public String toStringTask(Task task) {
         return task.getId() + "," + TypeTask.TASK + "," + task.getName() + ","
                 + task.getTaskStatus() + "," + task.getDescription() + ",";
     }
@@ -140,7 +140,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     //созданиe задачи из строки
+    //тут нужно строки прочитать из файла и обработать или метод будет принимать 1 строку и ее обрабатывать?
     public List<Task> taskFromString(String value) {
+
         List<Task> tasksFromString = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(value))) {
             List<String> lines = Files.readAllLines(Path.of(value));
@@ -150,14 +152,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 int id = Integer.parseInt(aboutTask[0]);
                 String name = aboutTask[2];
                 String description = aboutTask[4];
+                TypeTask typeTask = TypeTask.valueOf(aboutTask[1]);
                 TaskStatus taskStatus = TaskStatus.valueOf(aboutTask[3]);
-                if (tasks.containsKey(id)) {
+                if (typeTask == TypeTask.TASK) {
                     Task task = new Task(name, description, taskStatus, id);
                     tasksFromString.add(task);
-                } else if (epics.containsKey(id)) {
+                } else if (typeTask == TypeTask.EPIC) {
                     Epic epic = new Epic(name, description);
                     tasksFromString.add(epic);
-                } else if (subtasks.containsKey(id)) {
+                } else if (typeTask == TypeTask.SUBTASK) {
                     int epicId = Integer.parseInt(aboutTask[aboutTask.length - 1]);
                     Subtask subtask = new Subtask(name, description, epicId, taskStatus);
                     tasksFromString.add(subtask);
