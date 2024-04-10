@@ -7,13 +7,13 @@ import java.util.*;
 public class InMemoryTaskManager implements TaskManager {
     private int id;
 
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
-    private final Map<Integer, Subtask> subtasks = new HashMap<>();
-    private final HistoryManager historyManager;
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
+    protected final Map<Integer, Subtask> subtasks = new HashMap<>();
+    protected final HistoryManager historyManager;
 
-    public InMemoryTaskManager(HistoryManager historyManager) {
-        this.historyManager = historyManager;
+    public InMemoryTaskManager() {
+        this.historyManager = Managers.getDeaultHistoryManager();
     }
 
     @Override
@@ -39,26 +39,21 @@ public class InMemoryTaskManager implements TaskManager {
         return newTask.getId();
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public int addNewEpic(Epic newEpic) {
-        newEpic.setId(idGenerator());
+        if (newEpic.getId() == null) {
+            newEpic.setId(idGenerator());
+        } else {
+            newEpic.setId(newEpic.getId());
+        }
         epics.put(newEpic.getId(), newEpic);
         return newEpic.getId();
     }
 
-    //    @Override
-//    public Integer addNewSubtask(Subtask subtask) {
-//        int epicId = subtask.getEpicId();
-//        Epic epic = epics.get(epicId);
-//        if (epic == null) {
-//            return null;
-//        }
-//        subtask.setId(idGenerator());
-//        subtasks.put(id, subtask);
-//        epic.addNewSubtask(subtask.getId());
-//        updateStatus(epic);
-//        return id;
-//    }
     @Override
     public int addNewSubtask(Subtask subtask) {
         int epicId = subtask.getEpicId();
@@ -66,14 +61,12 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             return 0;
         }
-        int id = idGenerator();
-        subtask.setId(id);
-        subtasks.put(id, subtask); // Добавляем подзадачу в карту subtasks
-        epic.addNewSubtask(subtask.getId());
+        subtask.setId(idGenerator());
+        subtasks.put(id, subtask); // Добавляем подзадачу в мапу subtasks
+        epic.addSubtaskId(subtask.getId());
         updateStatus(epic);
         return id;
     }
-
 
     // удаление всех задач
     @Override
@@ -95,7 +88,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
         subtasks.clear();
     }
-
 
     // получение задачи по идентификатору
     @Override
@@ -263,7 +255,6 @@ public class InMemoryTaskManager implements TaskManager {
 
         if ((done > 0 && newW > 0) || inProgress > 0) {
             epic.setStatus(TaskStatus.IN_PROGRESS);
-            return;
         } else if (newW > 0 && done < 0) {
             epic.setStatus(TaskStatus.NEW);
         } else {

@@ -21,7 +21,13 @@ public class Task {
         this.description = description;
     }
 
-    public int getId() {
+    public Task(String name, String description, int id) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+    }
+
+    public Integer getId() {
         return id;
     }
 
@@ -59,6 +65,10 @@ public class Task {
         if (object == null || getClass() != object.getClass()) return false;
         Task task = (Task) object;
         return id == task.id && Objects.equals(name, task.name) && Objects.equals(description, task.description) && taskStatus == task.taskStatus;
+    }
+
+    public TypeTask getType() {
+        return TypeTask.TASK;
     }
 
     @Override

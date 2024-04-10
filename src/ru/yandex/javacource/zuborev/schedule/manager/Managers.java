@@ -2,7 +2,7 @@ package ru.yandex.javacource.zuborev.schedule.manager;
 
 public class Managers {
     public static TaskManager getDefaultTaskManager() {
-        return new InMemoryTaskManager(getDeaultHistoryManager());
+        return new InMemoryTaskManager();
     }
 
     public static HistoryManager getDeaultHistoryManager() {
