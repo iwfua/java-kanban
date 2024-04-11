@@ -21,7 +21,13 @@ public class Task {
         this.description = description;
     }
 
-    public int getId() {
+    public Task(String name, String description, int id) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+    }
+
+    public Integer getId() {
         return id;
     }
 
@@ -61,6 +67,10 @@ public class Task {
         return id == task.id && Objects.equals(name, task.name) && Objects.equals(description, task.description) && taskStatus == task.taskStatus;
     }
 
+    public TypeTask getType() {
+        return TypeTask.TASK;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(name, description, taskStatus, id);
@@ -69,10 +79,10 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", taskStatus=" + taskStatus +
-                ", id=" + id +
                 '}';
     }
 }
