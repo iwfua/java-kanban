@@ -37,7 +37,7 @@ public class FileBackedTaskManagerTests {
         Files.write(tempFile.toPath(), fileContent.getBytes());
 
         // Загружаем данные из файла
-        FileBackedTaskManager fileBackedTaskManager = CSVTaskFormat.loadFromFile(tempFile);
+        FileBackedTaskManager fileBackedTaskManager = FileBackedTaskManager.loadFromFile(tempFile);
 
         // Проверяем загруженные данные
         assertEquals(1, fileBackedTaskManager.getAllTask().size());
