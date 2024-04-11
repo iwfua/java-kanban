@@ -2,13 +2,8 @@ package ru.yandex.javacource.zuborev.schedule.manager;
 
 import ru.yandex.javacource.zuborev.schedule.task.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class CSVTaskFormat {
     public static String getHeader() {
