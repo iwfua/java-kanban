@@ -1,11 +1,9 @@
 package ru.yandex.javacource.zuborev.schedule;
 
 import org.junit.jupiter.api.*;
-
 import ru.yandex.javacource.zuborev.schedule.manager.*;
 import ru.yandex.javacource.zuborev.schedule.task.Task;
 import ru.yandex.javacource.zuborev.schedule.task.TaskStatus;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,12 +13,33 @@ public class InMemoryHistoryManagerTests {
 
     private static HistoryManager historyManager;
     private static TaskManager taskManager;
-    private static Task task1;
 
     @BeforeEach
     public void BeforeEach() {
         historyManager = Managers.getDeaultHistoryManager();
         taskManager = Managers.getDefaultTaskManager();
+    }
+
+    //убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.
+    @Test
+    public void getCheckChangesAfterUpdatedInfoInTask() {
+        Task currentTask = new Task("сделать дз", "description", TaskStatus.NEW);
+        Task updatedTask = new Task("Обновленный таск", "description", TaskStatus.NEW);
+        Task task1 = new Task("сходить в магазин", " ", TaskStatus.NEW);
+
+
+        Task expected = currentTask;
+
+        taskManager.addNewTask(currentTask);
+        taskManager.addNewTask(updatedTask);
+
+        taskManager.getTaskById(currentTask.getId());
+        taskManager.getHistory();
+
+        updatedTask.setId(currentTask.getId());
+        taskManager.updateTask(updatedTask);
+
+        Assertions.assertEquals(expected, taskManager.getHistory().get(task1.getId()));
     }
 
     @Test
@@ -60,7 +79,6 @@ public class InMemoryHistoryManagerTests {
         historyManager.add(task2);
         historyManager.add(task3);
 
-        // Удаляем задачу №2 и проверяем порядок
         historyManager.remove(2);
         expectedHistory = Arrays.asList(task1, task3);
         assertEquals(expectedHistory, historyManager.getHistory());
