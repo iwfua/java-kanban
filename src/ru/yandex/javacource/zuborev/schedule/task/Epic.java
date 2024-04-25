@@ -1,12 +1,9 @@
 package ru.yandex.javacource.zuborev.schedule.task;
 
-import com.sun.jdi.request.DuplicateRequestException;
-import ru.yandex.javacource.zuborev.schedule.manager.InMemoryTaskManager;
 import ru.yandex.javacource.zuborev.schedule.manager.Managers;
 import ru.yandex.javacource.zuborev.schedule.manager.TaskManager;
 
 import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -37,7 +34,7 @@ public class Epic extends Task {
     }
 
     private void sumDuration(Duration subtaskDuration) {
-        if (subtaskDuration != null)  {
+        if (subtaskDuration != null) {
             setDuration(getDuration().plus(subtaskDuration));
         }
     }
@@ -49,7 +46,7 @@ public class Epic extends Task {
         if (getStartTime() == null || subtaskStartTime.isBefore(getStartTime())) {
             setStartTime(subtaskStartTime);
         }
-        if (getDuration() != null){
+        if (getDuration() != null) {
             if (endTime == null || subtaskStartTime.plus(getDuration()).isAfter(endTime)) {
                 endTime = subtaskStartTime.plus(getDuration());
             }
@@ -63,16 +60,16 @@ public class Epic extends Task {
         LocalDateTime localDateTime = LocalDateTime.of(2020, 10, 11, 12, 13);
         Epic epic = new Epic("name", "desrp", 3);
         System.out.println(epic.endTime + "\n");
-        Subtask subtask = new Subtask("name", "descrp", TaskStatus.NEW,localDateTime,duration1,1, epic.getId());
-        Subtask subtask1 = new Subtask("name", "descrp", TaskStatus.NEW,1, epic.getId());
-        Subtask subtask2 = new Subtask("name", "descrp", TaskStatus.NEW,localDateTime,duration1,1, epic.getId());
+        Subtask subtask = new Subtask("name", "descrp", TaskStatus.NEW, localDateTime, duration1, 1, epic.getId());
+        Subtask subtask1 = new Subtask("name", "descrp", TaskStatus.NEW, 1, epic.getId());
+        Subtask subtask2 = new Subtask("name", "descrp", TaskStatus.NEW, localDateTime, duration1, 1, epic.getId());
         TaskManager taskManager = Managers.getDefaultTaskManager();
         taskManager.addNewEpic(epic);
         taskManager.addNewSubtask(subtask);
-        System.out.println( "startTime" + epic.getStartTime());
+        System.out.println("startTime" + epic.getStartTime());
         System.out.println(epic.endTime.format(dateTimeFormatter) + "\n");
         taskManager.addNewSubtask(subtask2);
-        System.out.println( "startTime" + epic.getStartTime());
+        System.out.println("startTime" + epic.getStartTime());
 
         System.out.println(epic.endTime.format(dateTimeFormatter) + "\n");
     }

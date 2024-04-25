@@ -42,7 +42,7 @@ public class CSVTaskFormat {
                 + "," + (task.getType().equals(TypeTask.SUBTASK) ? ((Subtask) task).getEpicId() : "");
     }
 
-//    Из строки в задачу
+    //    Из строки в задачу
     public static Task taskFromString(String value) {
         LocalDateTime startTime = null;
         Duration duration = Duration.ZERO;
@@ -52,18 +52,18 @@ public class CSVTaskFormat {
         final String name = values[2];
         final TaskStatus taskStatus = TaskStatus.valueOf(values[3]);
         final String description = values[4];
-        if (!values[5].equals("null")){
+        if (!values[5].equals("null")) {
             startTime = LocalDateTime.parse(values[5]);
         }
         if (!values[7].equals("null")) {
             duration = Duration.parse(values[7]);
         }
         if (type == TypeTask.TASK) {
-            return new Task(name, description, taskStatus,startTime,duration,id);
+            return new Task(name, description, taskStatus, startTime, duration, id);
         }
         if (type == TypeTask.SUBTASK) {
             final int epicId = Integer.parseInt(values[8]);
-            return new Subtask(name,description,taskStatus,startTime,duration,id,epicId);
+            return new Subtask(name, description, taskStatus, startTime, duration, id, epicId);
         } else {
             return new Epic(name, description, id);
         }
