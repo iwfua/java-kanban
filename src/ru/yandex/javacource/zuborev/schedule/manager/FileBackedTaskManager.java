@@ -4,13 +4,12 @@ import ru.yandex.javacource.zuborev.schedule.task.*;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
-    private File file;
+    private final File file;
 
 
     public FileBackedTaskManager(File file) {
@@ -39,9 +38,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         return epic.getId();
     }
 
-    //метод, который будет восстанавливать данные менеджера из файла при запуске программы
+
+    //    метод, который будет восстанавливать данные менеджера из файла при запуске программы
     public static FileBackedTaskManager loadFromFile(File file) {
-        List<String> ewf = new ArrayList<>();
         final FileBackedTaskManager taskManager = new FileBackedTaskManager(file);
         int generatorId = 0;
         try {
@@ -65,7 +64,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             for (Map.Entry<Integer, Subtask> e : taskManager.subtasks.entrySet()) {
                 final Subtask subtask = e.getValue();
                 final Epic epic = taskManager.epics.get(subtask.getEpicId());
-                epic.addSubtaskId(subtask.getId());
+                epic.addSubtaskId(subtask.getId(), subtask.getDuration(), subtask.getStartTime());
             }
             for (Integer taskId : history) {
                 taskManager.historyManager.add(taskManager.findTask(taskId));
@@ -107,10 +106,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     //сохранение в файл
-    protected void save() {
+    public void save() {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
             bufferedWriter.write(CSVTaskFormat.getHeader());
-            bufferedWriter.newLine();
 
             for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
                 final Task task = entry.getValue();
