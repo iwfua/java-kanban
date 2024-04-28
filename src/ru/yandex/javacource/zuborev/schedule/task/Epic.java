@@ -1,11 +1,8 @@
 package ru.yandex.javacource.zuborev.schedule.task;
 
-import ru.yandex.javacource.zuborev.schedule.manager.Managers;
-import ru.yandex.javacource.zuborev.schedule.manager.TaskManager;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +11,11 @@ public class Epic extends Task {
 
     private List<Integer> epicSubtaskIds;
     private LocalDateTime endTime;
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
 
     public Epic(String name, String description) {
         super(name, description, TaskStatus.NEW);
@@ -53,25 +55,8 @@ public class Epic extends Task {
         }
     }
 
-    public static void main(String[] args) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-
-        Duration duration1 = Duration.ofMinutes(100);
-        LocalDateTime localDateTime = LocalDateTime.of(2020, 10, 11, 12, 13);
-        Epic epic = new Epic("name", "desrp", 3);
-        System.out.println(epic.endTime + "\n");
-        Subtask subtask = new Subtask("name", "descrp", TaskStatus.NEW, localDateTime, duration1, 1, epic.getId());
-        Subtask subtask1 = new Subtask("name", "descrp", TaskStatus.NEW, 1, epic.getId());
-        Subtask subtask2 = new Subtask("name", "descrp", TaskStatus.NEW, localDateTime, duration1, 1, epic.getId());
-        TaskManager taskManager = Managers.getDefaultTaskManager();
-        taskManager.addNewEpic(epic);
-        taskManager.addNewSubtask(subtask);
-        System.out.println("startTime" + epic.getStartTime());
-        System.out.println(epic.endTime.format(dateTimeFormatter) + "\n");
-        taskManager.addNewSubtask(subtask2);
-        System.out.println("startTime" + epic.getStartTime());
-
-        System.out.println(epic.endTime.format(dateTimeFormatter) + "\n");
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public void deleteSubtask(int id) {
