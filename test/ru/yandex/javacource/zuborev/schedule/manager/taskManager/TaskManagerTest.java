@@ -1,10 +1,13 @@
-package ru.yandex.javacource.zuborev.schedule;
+package ru.yandex.javacource.zuborev.schedule.manager.taskManager;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.javacource.zuborev.schedule.manager.TaskManager;
 import ru.yandex.javacource.zuborev.schedule.task.*;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -80,14 +83,14 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     public void testAddNewTask() {
         taskManager.addNewTask(task1);
-        Assertions.assertEquals(taskManager.getTaskById(task1.getId()), task1);
+        assertEquals(taskManager.getTaskById(task1.getId()), task1);
     }
 
     @Test
     public void testAddNewEpic() {
         Epic epic = new Epic("Test Epic", "Description");
         taskManager.addNewEpic(epic);
-        Assertions.assertEquals(taskManager.getEpicById(epic.getId()), epic);
+        assertEquals(taskManager.getEpicById(epic.getId()), epic);
     }
 
     @Test
@@ -95,17 +98,38 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         int epicId = taskManager.addNewEpic(epic1);
         Subtask subtask = new Subtask("Test Subtask", "Description", epicId, TaskStatus.NEW);
         taskManager.addNewSubtask(subtask);
-        Assertions.assertEquals(taskManager.getSubtaskById(subtask.getId()), subtask);
+        assertEquals(taskManager.getSubtaskById(subtask.getId()), subtask);
     }
 
     @Test
     public void getDeleteTaskByID() {
         taskManager.addNewTask(task1);
         taskManager.deleteTaskId(task1.getId());
-        Assertions.assertEquals("[]", taskManager.getTasks().toString());
+        assertEquals("[]", taskManager.getTasks().toString());
     }
 
-    //проверяется неизменность задачи (по всем полям) при добавлении задачи в менеджер
+    @Test
+    public void checkSavePrioritizeTasks() {
+        Duration duration = Duration.ofMinutes(100);
+        LocalDateTime localDateTime = LocalDateTime.of(2020, 10, 11, 12, 13);
+        LocalDateTime localDateTime2 = LocalDateTime.of(2020, 10, 11, 15, 13);
+
+
+        Task task = new Task("name", "descrp", TaskStatus.NEW,localDateTime,duration,0);
+        Task task1 = new Task("name", "descrp", TaskStatus.NEW,localDateTime2,duration,0);
+        taskManager.addNewTask(task);
+        taskManager.addNewTask(task1);
+
+        int expectedSize = 2;
+        int currentSize = taskManager.getPrioritizedTasks().size();
+        Assertions.assertEquals(expectedSize,currentSize);
+
+        Task task2 = new Task("name", "descrp", TaskStatus.NEW,localDateTime2,duration,0);
+        taskManager.addNewTask(task2);
+        Assertions.assertEquals(expectedSize,currentSize);
+
+    }
+
     @Test
     public void getShouldBeNotChangesAfterAddInManager() {
         Task currentTask1 = new Task("Таск", "таск", TaskStatus.NEW);
@@ -116,9 +140,9 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         updatedTask1.setId(currentTask1.getId());
         taskManager.updateTask(updatedTask1);
 
-        Assertions.assertNotEquals(currentTask1.getTaskStatus(), taskManager.getTasks().get(0).getTaskStatus());
-        Assertions.assertNotEquals(currentTask1.getName(), taskManager.getTasks().get(0).getName());
-        Assertions.assertNotEquals(currentTask1.getDescription(), taskManager.getTasks().get(0).getDescription());
+        assertNotEquals(currentTask1.getTaskStatus(), taskManager.getTasks().get(0).getTaskStatus());
+        assertNotEquals(currentTask1.getName(), taskManager.getTasks().get(0).getName());
+        assertNotEquals(currentTask1.getDescription(), taskManager.getTasks().get(0).getDescription());
     }
 
 
@@ -126,7 +150,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     public void getTaskById() {
         taskManager.addNewTask(task1);
-        Assertions.assertEquals(task1, taskManager.getTaskById(task1.getId()));
+        assertEquals(task1, taskManager.getTaskById(task1.getId()));
     }
 
     //проверьте, что экземпляры класса Task равны друг другу, если равен их id
@@ -137,7 +161,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         task1.setId(task2.getId());
         taskManager.updateTask(task1);
 
-        Assertions.assertEquals(taskManager.getTasks().get(0), taskManager.getTasks().get(1));
+        assertEquals(taskManager.getTasks().get(0), taskManager.getTasks().get(1));
     }
 
     //проверьте, что задачи с заданным id и сгенерированным id не конфликтуют внутри менеджера
@@ -147,7 +171,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         Task secondTask = new Task("task1", "desckr1", TaskStatus.NEW, 0);
         taskManager.addNewTask(firstTask);
         taskManager.addNewTask(secondTask);
-        Assertions.assertNotEquals(taskManager.getTaskById(firstTask.getId()), taskManager.getTaskById(secondTask.getId()));
+        assertNotEquals(taskManager.getTaskById(firstTask.getId()), taskManager.getTaskById(secondTask.getId()));
     }
 
     @Test

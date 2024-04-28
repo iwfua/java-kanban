@@ -1,9 +1,8 @@
-package ru.yandex.javacource.zuborev.schedule;
+package ru.yandex.javacource.zuborev.schedule.manager.taskManager;
 
 import org.junit.jupiter.api.*;
-import ru.yandex.javacource.zuborev.schedule.manager.*;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import ru.yandex.javacource.zuborev.schedule.manager.InMemoryTaskManager;
+import ru.yandex.javacource.zuborev.schedule.manager.Managers;
 
 
 public class InMemoryTaskManagerTests extends TaskManagerTest<InMemoryTaskManager> {
@@ -68,7 +67,10 @@ public class InMemoryTaskManagerTests extends TaskManagerTest<InMemoryTaskManage
         super.getDefaultTest();
     }
 
-    //проверьте, что задачи с заданным id и сгенерированным id не конфликтуют внутри менеджера
+    @Test
+    public void checkSavePrioritizeTasks() {
+        super.checkSavePrioritizeTasks();
+    }
     @Test
     public void getEqualToIdsDontConflicted() {
         super.getEqualToIdsDontConflicted();
