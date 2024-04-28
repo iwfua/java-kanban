@@ -1,12 +1,8 @@
-package ru.yandex.javacource.zuborev.schedule.manager.taskManager;
+package ru.yandex.javacource.zuborev.schedule.manager;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.javacource.zuborev.schedule.manager.CSVTaskFormat;
-import ru.yandex.javacource.zuborev.schedule.manager.FileBackedTaskManager;
-import ru.yandex.javacource.zuborev.schedule.manager.ManagerSaveException;
-import ru.yandex.javacource.zuborev.schedule.manager.Managers;
 import ru.yandex.javacource.zuborev.schedule.task.*;
 import java.io.File;
 import java.io.IOException;

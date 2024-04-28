@@ -1,8 +1,6 @@
-package ru.yandex.javacource.zuborev.schedule.manager.taskManager;
+package ru.yandex.javacource.zuborev.schedule.manager;
 
 import org.junit.jupiter.api.*;
-import ru.yandex.javacource.zuborev.schedule.manager.InMemoryTaskManager;
-import ru.yandex.javacource.zuborev.schedule.manager.Managers;
 
 
 public class InMemoryTaskManagerTests extends TaskManagerTest<InMemoryTaskManager> {
