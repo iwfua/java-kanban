@@ -1,7 +1,6 @@
-package ru.yandex.javacource.zuborev.schedule;
+package ru.yandex.javacource.zuborev.schedule.manager;
 
 import org.junit.jupiter.api.*;
-import ru.yandex.javacource.zuborev.schedule.manager.*;
 import ru.yandex.javacource.zuborev.schedule.task.Task;
 import ru.yandex.javacource.zuborev.schedule.task.TaskStatus;
 import java.util.Arrays;
@@ -39,7 +38,7 @@ public class InMemoryHistoryManagerTests {
         updatedTask.setId(currentTask.getId());
         taskManager.updateTask(updatedTask);
 
-        Assertions.assertEquals(expected, taskManager.getHistory().get(task1.getId()));
+        assertEquals(expected, taskManager.getHistory().get(task1.getId()));
     }
 
     @Test
