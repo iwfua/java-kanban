@@ -14,7 +14,7 @@ public interface TaskManager {
     List<Subtask> getSubtask();
 
     // добавление новых задач
-    int addNewTask(Task newTask);
+    void addNewTask(Task newTask);
 
     int addNewEpic(Epic newEpic);
 
@@ -56,6 +56,8 @@ public interface TaskManager {
     void updateSubtask(Subtask subtask);
 
     void updateEpic(Epic updateEpic);
+
+    List<Task> getPrioritizedTasks();
 
     List<Task> getHistory();
 }
