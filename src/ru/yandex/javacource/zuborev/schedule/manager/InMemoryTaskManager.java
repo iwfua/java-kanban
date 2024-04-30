@@ -46,12 +46,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void addNewTask(Task newTask) {
         newTask.setId(idGenerator());
         tasks.put(newTask.getId(), newTask);
-
-        try {
-            prioritize(newTask);
-        } catch (ManagerSaveException | NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
+        prioritize(newTask);
     }
 
     public void setId(int id) {
