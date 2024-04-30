@@ -100,9 +100,9 @@ public class FileBackedTaskManagerTests extends TaskManagerTest<FileBackedTaskMa
     @Test
     void getTaskToString() {
         fileBackedTaskManager = new FileBackedTaskManager(tempFile);
-        Task task1 = new Task("Task 1", "Description 1", TaskStatus.DONE, 1);
+        Task task1 = new Task("Task 1", "Description 1", TaskStatus.DONE,localDateTime,duration,1);
         fileBackedTaskManager.addNewTask(task1);
-        String expected = "1,TASK,Task 1,DONE,Description 1,null,null,null,";
+        String expected = "1,TASK,Task 1,DONE,Description 1,2020-10-10T10:00,2020-10-10T10:10,PT10M,";
         String actual = CSVTaskFormat.taskToString(task1);
         System.out.println();
         assertEquals(expected, actual);

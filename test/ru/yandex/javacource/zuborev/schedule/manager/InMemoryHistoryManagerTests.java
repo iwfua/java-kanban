@@ -3,6 +3,9 @@ package ru.yandex.javacource.zuborev.schedule.manager;
 import org.junit.jupiter.api.*;
 import ru.yandex.javacource.zuborev.schedule.task.Task;
 import ru.yandex.javacource.zuborev.schedule.task.TaskStatus;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,6 +15,9 @@ public class InMemoryHistoryManagerTests {
 
     private static HistoryManager historyManager;
     private static TaskManager taskManager;
+    private LocalDateTime localDateTime;
+    private LocalDateTime localDateTime1;
+    private Duration duration;
 
     @BeforeEach
     public void BeforeEach() {
@@ -22,8 +28,13 @@ public class InMemoryHistoryManagerTests {
     //убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.
     @Test
     public void getCheckChangesAfterUpdatedInfoInTask() {
-        Task currentTask = new Task("сделать дз", "description", TaskStatus.NEW);
-        Task updatedTask = new Task("Обновленный таск", "description", TaskStatus.NEW);
+        localDateTime = LocalDateTime.of(2020,10,10,10,0);
+        localDateTime1 = LocalDateTime.of(2020,10,10,11,0);
+        duration = Duration.ofMinutes(10);
+
+        Task currentTask = new Task("сделать дз", "description", TaskStatus.NEW,localDateTime,duration,0);
+        Task updatedTask = new Task("Обновленный таск", "description",
+                TaskStatus.NEW,localDateTime1,duration,1);
         Task task1 = new Task("сходить в магазин", " ", TaskStatus.NEW);
 
 

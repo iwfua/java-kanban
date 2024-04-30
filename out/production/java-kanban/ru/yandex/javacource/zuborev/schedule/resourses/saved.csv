@@ -1,5 +1,5 @@
 id,type,name,status,description,startTime,endTime,duration,epic
-1,TASK,task1,NEW,desckr1,null,null,null,
-2,TASK,task1,NEW,desckr1,null,null,null,
+1,TASK,task1,NEW,desckr1,2020-10-10T10:00,2020-10-10T10:10,PT10M,
+2,TASK,task1,NEW,desckr1,2020-10-10T11:00,2020-10-10T11:10,PT10M,
 
 
