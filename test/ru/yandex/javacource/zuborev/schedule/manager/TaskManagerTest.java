@@ -3,7 +3,6 @@ package ru.yandex.javacource.zuborev.schedule.manager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.javacource.zuborev.schedule.manager.TaskManager;
 import ru.yandex.javacource.zuborev.schedule.task.*;
 
 import java.time.Duration;
@@ -19,11 +18,19 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     private static Task task2;
     private static Epic epic1;
     T taskManager;
+    LocalDateTime localDateTime;
+    LocalDateTime localDateTime1;
+    Duration duration;
+    Duration duration1;
 
     @BeforeEach
     public void beforeEach() {
-        task1 = new Task("сходить в магазин", " ", TaskStatus.NEW);
-        task2 = new Task("сделать уборку", " ", TaskStatus.NEW);
+        localDateTime = LocalDateTime.of(2020,10,10,10,0);
+        localDateTime1 = LocalDateTime.of(2020,10,10,11,0);
+        duration = Duration.ofMinutes(10);
+        duration1 = Duration.ofMinutes(10);
+        task1 = new Task("сходить в магазин", " ", TaskStatus.NEW,localDateTime,duration,1);
+        task2 = new Task("сделать уборку", " ", TaskStatus.NEW,localDateTime1,duration1,2);
         epic1 = new Epic("успеть сдать Проект", " ", 0);
         taskManager = createTaskManager();
 
@@ -113,10 +120,11 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         Duration duration = Duration.ofMinutes(100);
         LocalDateTime localDateTime = LocalDateTime.of(2020, 10, 11, 12, 13);
         LocalDateTime localDateTime2 = LocalDateTime.of(2020, 10, 11, 15, 13);
+        LocalDateTime localDateTime3 = LocalDateTime.of(2020, 10, 11, 15, 15);
 
 
-        Task task = new Task("name", "descrp", TaskStatus.NEW,localDateTime,duration,0);
-        Task task1 = new Task("name", "descrp", TaskStatus.NEW,localDateTime2,duration,0);
+        Task task = new Task("name", "descrp", TaskStatus.NEW,localDateTime,duration,1);
+        Task task1 = new Task("name", "descrp", TaskStatus.NEW,localDateTime2,duration,2);
         taskManager.addNewTask(task);
         taskManager.addNewTask(task1);
 
@@ -124,16 +132,18 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         int currentSize = taskManager.getPrioritizedTasks().size();
         Assertions.assertEquals(expectedSize,currentSize);
 
-        Task task2 = new Task("name", "descrp", TaskStatus.NEW,localDateTime2,duration,0);
-        taskManager.addNewTask(task2);
-        Assertions.assertEquals(expectedSize,currentSize);
+        Task task2 = new Task("name", "descrp", TaskStatus.NEW,localDateTime3,duration,3);
 
+        Assertions.assertThrows(ManagerSaveException.class, () -> taskManager.addNewTask(task2)
+                ,"Задача id=3 пересекаются с id=2 c 2020-10-11T15:13 по 2020-10-11T16:53");
     }
 
     @Test
     public void getShouldBeNotChangesAfterAddInManager() {
-        Task currentTask1 = new Task("Таск", "таск", TaskStatus.NEW);
-        Task updatedTask1 = new Task("Обновленный таск", "обновленный", TaskStatus.IN_PROGRESS);
+        Task currentTask1 = new Task("Таск", "таск", TaskStatus.NEW,localDateTime,duration,0);
+        Task updatedTask1 = new Task("Обновленный таск", "обновленный",
+                TaskStatus.IN_PROGRESS,localDateTime1,duration,1);
+
         taskManager.addNewTask(currentTask1);
         taskManager.addNewTask(updatedTask1);
 
@@ -167,8 +177,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     //проверьте, что задачи с заданным id и сгенерированным id не конфликтуют внутри менеджера
     @Test
     public void getEqualToIdsDontConflicted() {
-        Task firstTask = new Task("task1", "desckr1", TaskStatus.NEW);
-        Task secondTask = new Task("task1", "desckr1", TaskStatus.NEW, 0);
+        Task firstTask = new Task("task1", "desckr1", TaskStatus.NEW ,localDateTime,duration,0);
+        Task secondTask = new Task("task1", "desckr1", TaskStatus.NEW,localDateTime1,duration,1);
         taskManager.addNewTask(firstTask);
         taskManager.addNewTask(secondTask);
         assertNotEquals(taskManager.getTaskById(firstTask.getId()), taskManager.getTaskById(secondTask.getId()));
