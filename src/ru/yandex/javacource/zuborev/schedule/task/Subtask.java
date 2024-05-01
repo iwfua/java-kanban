@@ -1,5 +1,8 @@
 package ru.yandex.javacource.zuborev.schedule.task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
 
     private int epicId;
@@ -12,6 +15,11 @@ public class Subtask extends Task {
 
     public Subtask(String name, String description, TaskStatus taskStatus, int id, int epicId) {
         super(name, description, taskStatus, id);
+        this.epicId = epicId;
+    }
+
+    public Subtask(String name, String description, TaskStatus taskStatus,LocalDateTime startTime,Duration duration, int id, int epicId) {
+        super(name, description, taskStatus,startTime,duration, id);
         this.epicId = epicId;
     }
 

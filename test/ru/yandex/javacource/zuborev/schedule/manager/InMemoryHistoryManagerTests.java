@@ -1,11 +1,11 @@
-package ru.yandex.javacource.zuborev.schedule;
+package ru.yandex.javacource.zuborev.schedule.manager;
 
 import org.junit.jupiter.api.*;
-
-import ru.yandex.javacource.zuborev.schedule.manager.*;
 import ru.yandex.javacource.zuborev.schedule.task.Task;
 import ru.yandex.javacource.zuborev.schedule.task.TaskStatus;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,12 +15,41 @@ public class InMemoryHistoryManagerTests {
 
     private static HistoryManager historyManager;
     private static TaskManager taskManager;
-    private static Task task1;
+    private LocalDateTime localDateTime;
+    private LocalDateTime localDateTime1;
+    private Duration duration;
 
     @BeforeEach
     public void BeforeEach() {
         historyManager = Managers.getDeaultHistoryManager();
         taskManager = Managers.getDefaultTaskManager();
+    }
+
+    //убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.
+    @Test
+    public void getCheckChangesAfterUpdatedInfoInTask() {
+        localDateTime = LocalDateTime.of(2020,10,10,10,0);
+        localDateTime1 = LocalDateTime.of(2020,10,10,11,0);
+        duration = Duration.ofMinutes(10);
+
+        Task currentTask = new Task("сделать дз", "description", TaskStatus.NEW,localDateTime,duration,0);
+        Task updatedTask = new Task("Обновленный таск", "description",
+                TaskStatus.NEW,localDateTime1,duration,1);
+        Task task1 = new Task("сходить в магазин", " ", TaskStatus.NEW);
+
+
+        Task expected = currentTask;
+
+        taskManager.addNewTask(currentTask);
+        taskManager.addNewTask(updatedTask);
+
+        taskManager.getTaskById(currentTask.getId());
+        taskManager.getHistory();
+
+        updatedTask.setId(currentTask.getId());
+        taskManager.updateTask(updatedTask);
+
+        assertEquals(expected, taskManager.getHistory().get(task1.getId()));
     }
 
     @Test
@@ -60,7 +89,6 @@ public class InMemoryHistoryManagerTests {
         historyManager.add(task2);
         historyManager.add(task3);
 
-        // Удаляем задачу №2 и проверяем порядок
         historyManager.remove(2);
         expectedHistory = Arrays.asList(task1, task3);
         assertEquals(expectedHistory, historyManager.getHistory());
