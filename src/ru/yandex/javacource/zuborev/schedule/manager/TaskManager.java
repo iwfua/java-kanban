@@ -18,7 +18,7 @@ public interface TaskManager {
 
     int addNewEpic(Epic newEpic);
 
-    int addNewSubtask(Subtask subtask);
+    void addNewSubtask(Subtask subtask);
 
     // удаление всех задач
     void deleteAllTasks();

@@ -50,11 +50,16 @@ public class EpicsHandler extends BaseHttpHandler {
                 sendResponse(exchange, epicResponse, 200);
                 return;
             }
-        } else if (path.length == 3) {
+        } else if (path.length > 2) {
             Optional<Integer> epicId = getTaskId(exchange);
-            if (epicId.isPresent() && taskManager.getEpicById(epicId.get()) != null) {
+            if (epicId.isPresent() && taskManager.getEpicById(epicId.get()) != null && path.length == 3) {
                 String epicResponse = gson.toJson(taskManager.getEpicById(epicId.get()));
                 sendResponse(exchange, epicResponse, 200);
+                return;
+            }
+            if (epicId.isPresent() && taskManager.getEpicSubtasks(epicId.get()) != null && path.length == 4) {
+                String epicResponse = gson.toJson(taskManager.getEpicSubtasks(epicId.get()));
+                sendResponse(exchange, epicResponse,200);
                 return;
             }
         }
@@ -68,7 +73,7 @@ public class EpicsHandler extends BaseHttpHandler {
             sendResponse(exchange, "Epic удалён", 200);
             return;
         }
-        sendResponse(exchange,"Epic Not Found", 404);
+        sendResponse(exchange, "Epic Not Found", 404);
     }
 
     protected void handleAddTask(HttpExchange exchange) {

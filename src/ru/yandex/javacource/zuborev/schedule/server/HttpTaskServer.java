@@ -2,10 +2,15 @@ package ru.yandex.javacource.zuborev.schedule.server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 import com.sun.net.httpserver.HttpServer;
 import ru.yandex.javacource.zuborev.schedule.manager.Managers;
 import ru.yandex.javacource.zuborev.schedule.manager.TaskManager;
+import ru.yandex.javacource.zuborev.schedule.task.Epic;
+import ru.yandex.javacource.zuborev.schedule.task.Subtask;
+import ru.yandex.javacource.zuborev.schedule.task.TaskStatus;
 
 
 public class HttpTaskServer {
@@ -44,9 +49,23 @@ public class HttpTaskServer {
     }
 
     public static void main(String[] args) throws Exception {
+        Duration duration1 = Duration.ofMinutes(100);
+        Duration duration2 = Duration.ofMinutes(100);
+
+        LocalDateTime localDateTime = LocalDateTime.of(2020, 10, 11, 12, 13);
+        LocalDateTime localDateTime2 = LocalDateTime.of(2020, 10, 11, 15, 13);
+
+        Epic epic = new Epic("name", "desrp", 3);
+
+        Subtask subtask = new Subtask("name", "descrp", TaskStatus.NEW, localDateTime, duration1, 1, epic.getId());
+        Subtask subtask2 = new Subtask("name", "descrp", TaskStatus.NEW, localDateTime2, duration2, 2, epic.getId());
+
 
         // Создание экземпляра TaskManager
-        TaskManager taskManager = Managers.getDefaultTaskManager(); // Предполагается, что у вас есть реализация TaskManager
+        TaskManager taskManager = Managers.getDefaultTaskManager();
+        taskManager.addNewEpic(epic);
+        taskManager.addNewSubtask(subtask);
+        taskManager.addNewSubtask(subtask2);
 
         HttpTaskServer httpTaskServer = new HttpTaskServer(taskManager);
         httpTaskServer.server = null;

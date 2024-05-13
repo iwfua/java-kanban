@@ -82,19 +82,19 @@ public class SubtaskHandler extends BaseHttpHandler {
                     .lines()
                     .collect(Collectors.joining("\n"));
 
-            Subtask taskFromJson = gson.fromJson(body, Subtask.class);
+            Subtask subTaskFromJson = gson.fromJson(body, Subtask.class);
 
-            if (taskFromJson != null) {
+            if (subTaskFromJson != null) {
                 if (path.length == 2) {
-                    taskManager.addNewSubtask(taskFromJson);
-                    sendResponse(exchange, gson.toJson(taskFromJson), 201);
+                    taskManager.addNewSubtask(subTaskFromJson);
+                    sendResponse(exchange, gson.toJson(subTaskFromJson), 201);
                 } else if (path.length == 3) {
                     Optional<Integer> taskId = getTaskId(exchange);
 
                     if (taskId.isPresent() && taskManager.getSubtaskById(taskId.get()) != null) {
-                        taskManager.updateSubtask(taskFromJson);
+                        taskManager.updateSubtask(subTaskFromJson);
                         sendResponse(exchange, gson.toJson("Задача обновлена")
-                                + gson.toJson(taskFromJson), 201);
+                                + gson.toJson(subTaskFromJson), 201);
                     } else {
                         sendResponse(exchange, "Задача не найдена", 404);
                     }

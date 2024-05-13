@@ -77,11 +77,11 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public int addNewSubtask(Subtask subtask) {
+    public void addNewSubtask(Subtask subtask) {
         int epicId = subtask.getEpicId();
         Epic epic = epics.get(epicId);
         if (epic == null) {
-            return 0;
+            return;
         }
         Integer suntaskId = subtask.getId();
         if (suntaskId == null | subtasks.containsKey(suntaskId)) {
@@ -93,7 +93,6 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.put(subtask.getId(), subtask);
         epic.addSubtaskId(subtask.getId(), subtask.getDuration(), subtask.getStartTime());
         updateEpicDurationAndStatus(epic.getId());
-        return id;
     }
 
     // удаление всех задач
