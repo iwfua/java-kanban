@@ -32,7 +32,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Epic> getEpic() {
+    public List<Epic> getAllEpic() {
         return new ArrayList<>(epics.values());
     }
 
@@ -87,11 +87,9 @@ public class InMemoryTaskManager implements TaskManager {
         if (suntaskId == null | subtasks.containsKey(suntaskId)) {
             subtask.setId(idGenerator());
         }
-        try {
-            prioritize(subtask);
-        } catch (ManagerSaveException | NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
+
+        prioritize(subtask);
+
         subtasks.put(subtask.getId(), subtask);
         epic.addSubtaskId(subtask.getId(), subtask.getDuration(), subtask.getStartTime());
         updateEpicDurationAndStatus(epic.getId());
@@ -173,7 +171,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteTaskId(int id) {
+    public void deleteTaskById(int id) {
         if (tasks.containsKey(id)) {
             tasks.remove(id);
         }
@@ -188,7 +186,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteSubtask(int id) {
+    public void deleteSubtaskById(int id) {
         Subtask subtask = subtasks.remove(id);
         if (subtask == null) {
             return;
@@ -200,10 +198,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     // обновление задачи
     @Override
-    public void updateTask(Task updateTask) {
+    public Integer updateTask(Task updateTask) {
         if (tasks.containsKey(updateTask.getId())) {
             tasks.put(updateTask.getId(), updateTask);
         }
+        return updateTask.getId();
     }
 
     @Override
@@ -261,7 +260,9 @@ public class InMemoryTaskManager implements TaskManager {
             throw new ManagerSaveException("Задача id=" + task.getId()
                     + " пересекаются с id=" + t.getId() + " c " + existStart + " по " + existEnd);
         }
-        prioritizedTasks.add(task);
+        if (startTime != null & endTime != null) {
+            prioritizedTasks.add(task);
+        }
     }
 
 

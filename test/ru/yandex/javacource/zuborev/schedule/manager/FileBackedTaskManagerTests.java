@@ -14,13 +14,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class FileBackedTaskManagerTests extends TaskManagerTest<FileBackedTaskManager> {
     private File tempFile;
-
+    private FileBackedTaskManager fileBackedTaskManager;
 
     public FileBackedTaskManager createTaskManager() {
         return (FileBackedTaskManager) Managers.getDefaultFile();
     }
-
-    private FileBackedTaskManager fileBackedTaskManager;
 
     @BeforeEach
     public void addFile() throws IOException {
