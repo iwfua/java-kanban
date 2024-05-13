@@ -14,11 +14,11 @@ public interface TaskManager {
     List<Subtask> getSubtask();
 
     // добавление новых задач
-    void addNewTask(Task newTask);
+    int addNewTask(Task newTask);
 
     int addNewEpic(Epic newEpic);
 
-    void addNewSubtask(Subtask subtask);
+    int addNewSubtask(Subtask subtask);
 
     // удаление всех задач
     void deleteAllTasks();
@@ -51,7 +51,7 @@ public interface TaskManager {
     void deleteSubtaskById(int id);
 
     // обновление задачи
-    Integer updateTask(Task updateTask);
+    void updateTask(Task updateTask);
 
     void updateSubtask(Subtask subtask);
 

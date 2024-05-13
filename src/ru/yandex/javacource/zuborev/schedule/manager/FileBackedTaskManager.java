@@ -17,15 +17,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     @Override
-    public void addNewTask(Task task) {
+    public int addNewTask(Task task) {
         super.addNewTask(task);
         save();
+        return task.getId();
     }
 
     @Override
-    public void addNewSubtask(Subtask subtask) {
+    public int addNewSubtask(Subtask subtask) {
         super.addNewSubtask(subtask);
         save();
+        return subtask.getId();
     }
 
     @Override

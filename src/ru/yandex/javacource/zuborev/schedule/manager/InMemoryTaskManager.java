@@ -43,10 +43,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     // добавление новых задач
     @Override
-    public void addNewTask(Task newTask) {
+    public int addNewTask(Task newTask) {
         newTask.setId(idGenerator());
         tasks.put(newTask.getId(), newTask);
         prioritize(newTask);
+        return newTask.getId();
     }
 
     public void setId(int id) {
@@ -77,14 +78,14 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void addNewSubtask(Subtask subtask) {
+    public int addNewSubtask(Subtask subtask) {
         int epicId = subtask.getEpicId();
         Epic epic = epics.get(epicId);
         if (epic == null) {
-            return;
+            return 0;
         }
-        Integer suntaskId = subtask.getId();
-        if (suntaskId == null | subtasks.containsKey(suntaskId)) {
+        Integer subtaskId = subtask.getId();
+        if (subtaskId == null | subtasks.containsKey(subtaskId)) {
             subtask.setId(idGenerator());
         }
 
@@ -93,6 +94,7 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.put(subtask.getId(), subtask);
         epic.addSubtaskId(subtask.getId(), subtask.getDuration(), subtask.getStartTime());
         updateEpicDurationAndStatus(epic.getId());
+        return subtaskId;
     }
 
     // удаление всех задач
@@ -197,11 +199,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     // обновление задачи
     @Override
-    public Integer updateTask(Task updateTask) {
+    public void updateTask(Task updateTask) {
         if (tasks.containsKey(updateTask.getId())) {
             tasks.put(updateTask.getId(), updateTask);
         }
-        return updateTask.getId();
     }
 
     @Override
