@@ -18,7 +18,7 @@ public class HttpTaskServer {
         this.taskManager = taskManager;
     }
 
-    public void startServer(HttpServer server) throws IOException {
+    public HttpServer startServer(HttpServer server) throws IOException {
         server = HttpServer.create(new InetSocketAddress(PORT), 0); // Создаем новый HttpServer
 
         // Привязка обработчиков к соответствующим путям
@@ -32,6 +32,7 @@ public class HttpTaskServer {
         server.start();
 
         System.out.println("Server started on port " + PORT);
+        return server;
     }
 
 

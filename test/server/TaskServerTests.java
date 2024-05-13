@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import ru.yandex.javacource.zuborev.schedule.manager.Managers;
 import ru.yandex.javacource.zuborev.schedule.manager.TaskManager;
 import ru.yandex.javacource.zuborev.schedule.server.HttpTaskServer;
-import ru.yandex.javacource.zuborev.schedule.task.Epic;
 import ru.yandex.javacource.zuborev.schedule.task.Task;
 
 import java.io.IOException;
@@ -20,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class TaskServerTests {
-    private static final int PORT = 8080;
     private TaskManager taskManager;
     private HttpTaskServer httpTaskServer;
     private HttpServer server;
@@ -29,12 +27,7 @@ class TaskServerTests {
     public void BeforeEach() throws IOException {
         taskManager = Managers.getDefaultTaskManager();
         httpTaskServer = new HttpTaskServer(taskManager);
-        server = HttpServer.create(new InetSocketAddress(PORT), 0); // Создаем новый HttpServer
-        try {
-            httpTaskServer.startServer(server); // Передаем созданный HttpServer в метод startServer
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        server = httpTaskServer.startServer(server);
     }
 
     @Test
