@@ -32,9 +32,9 @@ public class InMemoryHistoryManagerTests {
         localDateTime1 = LocalDateTime.of(2020,10,10,11,0);
         duration = Duration.ofMinutes(10);
 
-        Task currentTask = new Task("сделать дз", "description", TaskStatus.NEW,localDateTime,duration,0);
+        Task currentTask = new Task("сделать дз", "description", TaskStatus.NEW,localDateTime,duration);
         Task updatedTask = new Task("Обновленный таск", "description",
-                TaskStatus.NEW,localDateTime1,duration,1);
+                TaskStatus.NEW,localDateTime1,duration);
         Task task1 = new Task("сходить в магазин", " ", TaskStatus.NEW);
 
 

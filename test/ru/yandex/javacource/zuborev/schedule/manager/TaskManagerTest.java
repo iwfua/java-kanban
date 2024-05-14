@@ -111,7 +111,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     public void getDeleteTaskByID() {
         taskManager.addNewTask(task1);
-        taskManager.deleteTaskId(task1.getId());
+        taskManager.deleteTaskById(task1.getId());
         assertEquals("[]", taskManager.getTasks().toString());
     }
 

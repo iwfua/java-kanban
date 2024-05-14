@@ -9,12 +9,12 @@ import java.util.List;
 public interface TaskManager {
     List<Task> getAllTask();
 
-    List<Epic> getEpic();
+    List<Epic> getAllEpic();
 
     List<Subtask> getSubtask();
 
     // добавление новых задач
-    void addNewTask(Task newTask);
+    int addNewTask(Task newTask);
 
     int addNewEpic(Epic newEpic);
 
@@ -44,11 +44,11 @@ public interface TaskManager {
 
     List<Subtask> getSubtasks();
 
-    void deleteTaskId(int id);
+    void deleteTaskById(int id);
 
     void deleteEpic(int id);
 
-    void deleteSubtask(int id);
+    void deleteSubtaskById(int id);
 
     // обновление задачи
     void updateTask(Task updateTask);

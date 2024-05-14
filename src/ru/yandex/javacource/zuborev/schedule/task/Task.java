@@ -1,11 +1,7 @@
 package ru.yandex.javacource.zuborev.schedule.task;
 
-import ru.yandex.javacource.zuborev.schedule.manager.Managers;
-import ru.yandex.javacource.zuborev.schedule.manager.TaskManager;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
@@ -16,12 +12,25 @@ public class Task {
     private Duration duration;
     private LocalDateTime startTime;
 
+    public Task(String name, String description, TaskStatus taskStatus) {
+        this.name = name;
+        this.description = description;
+        this.taskStatus = taskStatus;
+    }
+
     public Task(String name, String description, TaskStatus taskStatus, int id) {
         this.name = name;
         this.description = description;
         this.taskStatus = taskStatus;
         this.id = id;
     }
+
+    public Task(String name, String description, int id) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+    }
+
 
     public Task(String name, String description, TaskStatus taskStatus,LocalDateTime startTime,Duration duration, int id) {
         this.name = name;
@@ -32,21 +41,20 @@ public class Task {
         this.id = id;
     }
 
-    public static void main(String[] args) {
-        TaskManager taskManager = Managers.getDefaultTaskManager();
-        Duration duration1 = Duration.ofMinutes(10);
-        LocalDateTime start = LocalDateTime.of(2020, 12, 10, 10,10);
-        Task task = new Task("name", "desrp", TaskStatus.NEW, start, duration1,1);
-        Task task1 = new Task("name", "descrp", TaskStatus.NEW, 1);
-        taskManager.addNewTask(task);
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        System.out.println(task.getEndTime().format(dateTimeFormatter));
-
-        System.out.println(taskManager);
+    public Task(String name, String description, TaskStatus taskStatus,LocalDateTime startTime,Duration duration) {
+        this.name = name;
+        this.description = description;
+        this.taskStatus = taskStatus;
+        this.startTime = startTime;
+        this.duration = duration;
     }
 
     public Duration getDuration() {
-        return duration;
+        if (duration == null) {
+            return null;
+        } else {
+            return Duration.ofSeconds(duration.getSeconds());
+        }
     }
 
     public LocalDateTime getStartTime() {
@@ -67,19 +75,6 @@ public class Task {
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
-    }
-
-
-    public Task(String name, String description, TaskStatus taskStatus) {
-        this.taskStatus = taskStatus;
-        this.name = name;
-        this.description = description;
-    }
-
-    public Task(String name, String description, int id) {
-        this.name = name;
-        this.description = description;
-        this.id = id;
     }
 
     public Integer getId() {
@@ -140,7 +135,7 @@ public class Task {
                 ", taskStatus=" + taskStatus +
                 ", id=" + id +
                 ", startTime=" + startTime +
-                ", duration=" + duration +
+                ", duration=" + getDuration() +
                 ", endTime=" + getEndTime() +
                 '}';
     }
